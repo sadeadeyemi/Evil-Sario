@@ -1,9 +1,9 @@
 var actorChars = {
-	  "@": Player,
-	  /*">": HoriPlat,
-	  "^": VertPlat,*/
+	  "@": Player/*,
+	  ">": HoriPlat,
+	  "^": VertPlat,
 	  "?": Enemy,
-	  "x": Spikes
+	  "x": Spikes*/
 	  
   };
 function Level(plan) {
@@ -29,20 +29,23 @@ function Level(plan) {
       if (ch==='@') {
 	    this.player = new Player(new Vector(x,y));
 		this.actors.push(this.player);
-	  }else if (ch == "y") {
+	  }
+	  else if (ch == "y") {
         fieldType = "wall";
       // Because there is a third case (space ' '), use an "else if" instead of "else"
-      }else if (ch == "!"){
+      } else if (ch == "!"){
         fieldType = "lava";
       } else if (ch == "o") {  
 		 this.actors.push(new Coin(new Vector(x,y)));
-	  } else if (ch == ">") {		  
+	  } /* else if (ch == ">") {
+		  
 		  this.actors.push(new HoriPlat(new Vector(x,y)));
-	  } else if (ch == "^") {	  
+	  } else if (ch == "^") {
+		  
 		  this.actors.push(new VertPlat(new Vector(x,y)));
 	  }else if (ch == "?") {  
 		  this.actors.push(new Enemy(new Vector(x,y)));
-	  }
+	  }*/
       // "Push" the fieldType, which is a string, onto the gridLine array (at the end).
       gridLine.push(fieldType);
     }
@@ -119,36 +122,24 @@ var jiggleSpeed = 6.9, jiggleDist = .42
 	this.pos = pos;
 	this.size = new Vector (1,1);
 }	*/
+/*
 
 //horizontal platform
 function HoriPlat(pos) {
-	this.pos = pos;
-	this.size = new Vector (5,1);
-	this.speed = new Vector (2,0);
-	/*this.basePos = this.pos=pos.plus(new Vector(.1,2));
+	this.basePos = this.pos=pos.plus(new Vector(0.2,0.1));
 	this.size = new Vector (5,1);
 	this.horizontal = Math.random() * Math.PI * 2;
-	this.repeatPos = pos;*/
+	this.repeatPos = pos;
 	//gotta move the platform
 }
 HoriPlat.prototype.type = "horiPlat";
 
-HoriPlat.prototype.act = function(step, level) {
-	/*this.horizontal += pos * horizontalSpeed;
+HoriPlat.prototype.act = function(step) {
+	this.horizontal += step * horizontalSpeed;
 	var horizontalPos = Math.sin(this.horizontal) * horizontalDist;
-	this.pos = this.basePos.plus(new Vector(0, horizontalPos));*/
-	
-	var newPos = this.pos.plus(this.speed.times(step));
-	if (!level.obstacleAt(newPos, this.size)){
-		this.pos = newPos;
-	}else if (this.repeatPos){
-    this.pos = this.repeatPos;
-	}else{
-		this.speed = this.speed.times(-1);
-	}
-	var horizontalPos = newPos * horizontalDist;
+	this.pos = this.basePos.plus(new Vector(0, horizontalPos));
 };
-var horizontalSpeed =4, horizontalDist = .1
+var horizontalSpeed =6.9, horizontalDist = -.63
 
 
 
@@ -165,8 +156,6 @@ VertPlat.prototype.act = function(step) {
 	this.vertical += step * verticalSpeed;
 	var verticalPos = Math.sin(this.vertical) * verticalDist;
 	this.pos = this.basePos.plus(new Vector(0, verticalPos));
-
-	
 };
 var verticalSpeed =6.9, verticalDist = -.63
 
@@ -194,7 +183,7 @@ function Spikes (pos) {
 }
 Spikes.prototype.type = "spikes";
 
-
+*/
 function elt(name, className) {
   var elt = document.createElement(name);
   if (className) elt.className = className;
@@ -395,7 +384,6 @@ Player.prototype.moveX = function(step, level, keys) {
 	this.pos = newPos;
 };
 
-
 var gravity = 18;
 var jumpSpeed = 13;
 var playerYSpeed = 11;
@@ -422,6 +410,8 @@ Player.prototype.moveY = function(step, level, keys) {
 Player.prototype.act = function(step, level, keys) {
   this.moveX(step, level, keys);
   this.moveY(step, level, keys);
+  
+   
   var otherActor = level.actorAt(this);
   if (otherActor)
     level.playerHit(otherActor.type, otherActor);
@@ -435,17 +425,13 @@ Level.prototype.playerHit = function(type, actor) {
   if (type == "lava" && this.status == null) {
     this.status = "gameOver";
     this.finishDelay = 1;
-  }else if (type == "horiPlat" && this.status == null) {
-	  return "wall";
-	  return obstacle;
-	   
-  }else if (type == "enemy" && this.status == null) {
+  }/*else if (type == "enemy" && this.status == null) {
 	  this.status = "gameOver";
 	  this.finishDelay = 1;
   } else if (type == "spikes" && this.status == null) {
 	  this.status = "gameOver";
 	  this.finishDelay = 1;
-  } else if (type == "coin") {
+  }*/ else if (type == "coin") {
     this.actors = this.actors.filter(function(other) {
       return other != actor; 
     });
