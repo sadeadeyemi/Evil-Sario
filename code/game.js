@@ -70,12 +70,21 @@ Vector.prototype.times = function(factor) {
   return new Vector(this.x * factor, this.y * factor);
 };
 
+//player pic
 
+window.onload = function() {
+	var canvas =
+	document.getElementById("Mario");
+	var ctx = canvas.getContext("2d");
+	var img = document.getElementById("marioPic");
+	ctx.drawImage(img, 10, 10);
+};
 // A Player has a size, speed and position.
 function Player(pos) {
   this.pos = pos.plus(new Vector(0, -0.5));
   this.size = new Vector(0.8, 1.5);
   this.speed = new Vector(0, 0);
+  
 }
 Player.prototype.type = "player";
 
