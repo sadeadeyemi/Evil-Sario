@@ -14,7 +14,9 @@
 .spikes        { background: rgb(78, 225, 54); }
 
 .actor	{position: absolute; }
-.player	{background: rgb(2, 181, 0); }
+.player	{background-image: url("pics/evil mario.png");
+		 background-position: absolute;
+		 }
 .game {
 	overflow: hidden;
 	max-width: 600px;

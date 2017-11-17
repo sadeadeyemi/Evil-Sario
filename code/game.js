@@ -27,11 +27,12 @@ function Level(plan) {
       // Use if and else to handle the two cases
 	  //Player is an actor
       if (ch==='@') {
-	    this.player = new Player(new Vector(x,y));
+	   this.player = document.getElementById("marioPic");
+	   this.player = new Player(new Vector(x,y));
 		this.actors.push(this.player);
+		
 	  }else if (ch == "y") {
         fieldType = "wall";
-      // Because there is a third case (space ' '), use an "else if" instead of "else"
       }else if (ch == "!"){
         fieldType = "lava";
       } else if (ch == "o") {  
@@ -72,19 +73,20 @@ Vector.prototype.times = function(factor) {
 
 //player pic
 
-window.onload = function() {
-	var canvas =
-	document.getElementById("Mario");
-	var ctx = canvas.getContext("2d");
-	var img = document.getElementById("marioPic");
-	ctx.drawImage(img, 10, 10);
-};
+
 // A Player has a size, speed and position.
 function Player(pos) {
   this.pos = pos.plus(new Vector(0, -0.5));
   this.size = new Vector(0.8, 1.5);
   this.speed = new Vector(0, 0);
   
+  window.onload = function() {
+	var canvas =
+	document.getElementById("marioPic");
+	//var ctx = canvas.getContext("2d");
+	var img = document.getElementById("marioPic");
+	//ctx.drawImage(img, 0,0);
+};
 }
 Player.prototype.type = "player";
 
@@ -156,7 +158,29 @@ HoriPlat.prototype.act = function(step, level) {
 		this.speed = this.speed.times(-1);
 	}
 	var horizontalPos = newPos * horizontalDist;
+	
+	HoriPlat.prototype.obstacleAt = function(pos, size) {
+  // left
+  var xStart = Math.floor(pos.x);
+  // right 
+  var xEnd = Math.ceil(pos.x + size.x);
+  // top 
+  var yStart = Math.floor(pos.y);
+  // Bottom 
+  var yEnd = Math.ceil(pos.y + size.y);
+
+  // Consider the sides and top and bottom of the level as walls
+  if (xStart < 0 || xEnd > this.width || yStart < 0 || yEnd > this.height)
+    return "wall";
 };
+for (var y = yStart; y < yEnd; y++) {
+    for (var x = xStart; x < xEnd; x++) {
+      var fieldType = this.grid[y][x];
+      if (fieldType){ return fieldType;
+	  }
+    }
+  }
+ };
 var horizontalSpeed =4, horizontalDist = .1
 
 
